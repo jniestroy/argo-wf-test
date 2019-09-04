@@ -1,0 +1,43 @@
+{
+  "@context": {
+    "base": "http://schema.org",
+     "wfdesc:": "https://wf4ever.github.io/ro/2016-01-28/wfdesc/"
+   },
+  "@type": "Dataset",
+  "author": {
+    "@type": "Person",
+    "email": "jcn4rh@virgnia.edu",
+    "identifier": "https://orcid.org/0000-0002-1103-3882",
+    "memberOf": "UVa",
+    "name": "Justin Niestroy"
+  },
+  "generated_by": {
+      "@type": "wfdesc:Wokflow",
+       "name": "readbea",
+       "wfdesc:hasInput": [
+         {
+           "@type": "wfdesc:Parameter",
+           "datatype": "File",
+           "name": "input_data",
+           "path": "/houlter data/UVA0001.bea"
+           }
+         ],
+       "wfdesc:hasOutput": [
+         {
+           "@type": "wfdesc:Parameter",
+           "datatype": "File",
+           "name": "UVA0001.json"
+           }
+         ],
+       "wfdesc:hasProcess": [
+           {
+             "@type": "wfdesc:Process",
+             "commandRun": ["python3", "readbea.py","UVA0001.bea"],
+             "name": "readbea",
+             "run": "readbea.yaml"
+           },
+        ]
+      },
+    "identifier": "TBD",
+    "name": "UVA0001",
+  }

@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 import json
+import sys
+
 class NumpyEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, np.ndarray):
@@ -128,7 +130,7 @@ def readbea(file):
             k = np.logical_and(k,rrt<time2)
 
         rlab[k] = num
-    result = {'rr':rr,"rlab":rlab}#,"beat":beat,'lab':lab,'label':label,'rhythm':rhythm,'rtime':rtime}
+    result = {'rr':rr,"rlab":rlab,"beat":beat,'lab':lab,'label':label,'rhythm':rhythm,'rtime':rtime}
     return(result)
 def sample_statistics(result):
     rr = result['rr']
@@ -146,28 +148,16 @@ def both(i):
 
     return(stats)
 
-import time
-start_time = time.time()
 
 
 
-import multiprocessing as mp
+
+
 #print("Number of processors: ", mp.cpu_count())
 
 #Step 1: Init multiprocessing.Pool()
-
-pool = mp.Pool(14)
-
-# Step 2: `pool.apply` the `howmany_within_range()`
-results = pool.map(both, [i for i in range(1,2894)])
-#results = [pool.apply(both, args=(i)) for i in range(100)]
-
-# Step 3: Don't forget to close
-pool.close()
-
-df = pd.DataFrame(columns=['ID','Mean RR', 'STD RR',"RR Clean Mean","RR Clean STD", 'RLab'])
-for i in range(0,2893):
-    stats = results[i]
-    df = df.append(stats,ignore_index=True)
-df.to_csv('Cleaned Data/cleaned_corrected.csv',index=False)
-print("--- %s seconds ---" % (time.time() - start_time))
+file = sys.argv[1]
+name = sys.argv[2]
+result = readbea(file)
+with open(name + '.json','w') as f:
+    json.dump(result,f,cls=NumpyEncoder)
